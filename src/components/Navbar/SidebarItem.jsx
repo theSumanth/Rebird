@@ -1,10 +1,9 @@
 import { useContext } from "react";
-import { NavLink, useSubmit } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { PageStatus } from "../../store/PageStatusProvder";
 
 const SidebarItem = ({ Icon, text, path }) => {
   const pageStatusCtx = useContext(PageStatus);
-  const submit = useSubmit();
 
   let cssClass =
     "flex gap-4 py-2 px-3 mb-2 rounded-md hover:bg-lightGreen_sm hover:text-greenDark";

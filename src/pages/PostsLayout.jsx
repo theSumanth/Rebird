@@ -12,26 +12,24 @@ const PostsLayout = () => {
 export default PostsLayout;
 
 async function loadPosts() {
-  try {
-    const response = await fetch("http://localhost:3000/feed/posts", {
-      headers: {
-        Authorization: "Bearer " + getAuthToken(),
-      },
-    });
+  console.log("into posts");
+  const response = await fetch("http://localhost:3000/feed/posts", {
+    headers: {
+      Authorization: "Bearer " + getAuthToken(),
+    },
+  });
 
-    if (!response.ok) {
-      throw json({ message: "Could not fetch Posts" }, { status: 500 });
-    }
-
-    if (response.status === 400) {
-      throw json({ message: "No posts are available" }, { status: 422 });
-    }
-  } catch (err) {
-    throw json({ message: "Could not fetch Posts" }, { status: 500 });
+  if (!response.ok) {
+    throw json(
+      { message: "Could not fetch posts." },
+      {
+        status: 500,
+      }
+    );
+  } else {
+    const resData = await response.json();
+    return resData;
   }
-
-  const resData = await response.json();
-  return resData;
 }
 
 export function loader() {

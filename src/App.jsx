@@ -11,13 +11,17 @@ import PageStatusProvder from "./store/PageStatusProvder";
 import SearchLayout from "./pages/SearchLayout";
 import { checkAuthLoader } from "./util/auth";
 import PostEdit from "./components/Posts/PostEdit";
-import PostDetail from "./pages/PostsPage/PostDetail";
+import PostDetail, {
+  loader as singlePostLoader,
+  action as deletePostAction,
+} from "./pages/PostsPage/PostDetail";
 import { action as logoutAction } from "./pages/Logout";
 import Profile from "./pages/Profile/Profile";
 import ProfileEdit from "./components/Profile/ProfileEdit";
-import ProfileLayout from "./pages/ProfileLayout";
+import ProfileLayout, { loader as profileLoader } from "./pages/ProfileLayout";
 import { action as editProfileAction } from "./components/Profile/ProfileEditForm";
 import ErrorPage from "./pages/Error";
+import ProfileProvder from "./store/ProfileProvider";
 
 const router = createBrowserRouter([
   {
@@ -45,7 +49,12 @@ const router = createBrowserRouter([
           {
             path: ":postId",
             children: [
-              { index: true, element: <PostDetail /> },
+              {
+                index: true,
+                element: <PostDetail />,
+                loader: singlePostLoader,
+                action: deletePostAction,
+              },
               { path: "edit", element: <PostEdit /> },
             ],
           },
@@ -62,7 +71,15 @@ const router = createBrowserRouter([
       },
       {
         path: "profile",
-        element: <ProfileLayout />,
+        element: (
+          <>
+            <ProfileProvder>
+              <ProfileLayout />
+            </ProfileProvder>
+          </>
+        ),
+        id: "profile-root",
+        loader: profileLoader,
         children: [
           { index: true, element: <Profile /> },
           { path: "edit", element: <ProfileEdit />, action: editProfileAction },

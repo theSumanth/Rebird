@@ -32,7 +32,13 @@ const Modal = ({ children, method, path, data, buttonCaption }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    submit({ ...data }, { method, action: path });
+    const formData = new FormData();
+    for (let key of Object.keys(data)) {
+      formData.append(key, data[key]);
+    }
+    console.log("data", data);
+    console.log("formData", formData.get("image"));
+    submit(formData, { method, encType: "multipart/form-data" });
   };
 
   return createPortal(

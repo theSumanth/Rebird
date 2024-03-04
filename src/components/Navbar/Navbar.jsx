@@ -28,16 +28,14 @@ const Navbar = () => {
         text={"Connections"}
         path={"/connections"}
       />
-      {true && (
-        <Form action="/logout" method="POST">
-          <li>
-            <button className="flex gap-4 py-2 px-3 mb-2 rounded-md text-red-600 mt-8">
-              <LogOut />
-              <span className="">Logout</span>
-            </button>
-          </li>
-        </Form>
-      )}
+      <Form action="/logout" method="POST">
+        <li>
+          <button className="flex gap-4 py-2 px-3 mb-2 rounded-md text-red-600 mt-8">
+            <LogOut />
+            <span className="">Logout</span>
+          </button>
+        </li>
+      </Form>
     </Sidebar>
   );
 };

@@ -1,26 +1,26 @@
-import { useState, useContext } from "react";
+import { useContext, useState } from "react";
 
 import Modal from "../UI/Modal";
 import PostForm from "./PostForm";
 import { PageStatus } from "../../store/PageStatusProvder";
 
 const PostEdit = () => {
+  const pageStatusCtx = useContext(PageStatus);
+
   const [image, setImage] = useState({
     url: "",
-    file: [],
   });
   const [description, setDescription] = useState("");
   const [isEditing, setIsEditing] = useState(false);
-  const pageStatusCtx = useContext(PageStatus);
-  // const open = pageStatusCtx.path === "/posts/new";
+
+  const open = pageStatusCtx.path === "/posts/id/edit";
+  console.log(open);
 
   const handleImageChange = (event) => {
-    console.log("click");
-    setImage((prevState) => {
+    setImage(() => {
       return {
-        ...prevState,
         url: URL.createObjectURL(event.target.files[0]),
-        file: [...prevState.file, event.target.files[0]],
+        file: event.target.files[0],
       };
     });
 

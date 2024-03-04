@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 
 const Sidebar = ({ children }) => {
   const user = localStorage.getItem("user");
-  console.log("user", user.username);
+  // console.log("user", user.username);
 
   return (
     <aside className="h-screen sticky top-0">

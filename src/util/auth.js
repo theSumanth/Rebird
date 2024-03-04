@@ -10,14 +10,14 @@ export function getAuthToken() {
   return token;
 }
 
-export function getAuthUser() {
-  const user = localStorage.getItem("user");
+export function getUserId() {
+  const userId = localStorage.getItem("userId");
 
-  if (!user) {
+  if (!userId) {
     return null;
   }
 
-  return user;
+  return userId;
 }
 
 export function checkAuthLoader() {

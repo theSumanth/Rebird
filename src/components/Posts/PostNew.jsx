@@ -7,7 +7,6 @@ import { PageStatus } from "../../store/PageStatusProvder";
 const PostNew = () => {
   const [image, setImage] = useState({
     url: "",
-    file: [],
   });
   const [description, setDescription] = useState("");
   const [isEditing, setIsEditing] = useState(false);
@@ -20,7 +19,7 @@ const PostNew = () => {
       return {
         ...prevState,
         url: URL.createObjectURL(event.target.files[0]),
-        file: [...prevState.file, event.target.files[0]],
+        file: event.target.files[0],
       };
     });
 

@@ -1,31 +1,32 @@
 import { useContext, useState } from "react";
-import { PageStatus } from "../../store/PageStatusProvder";
 
+import { PageStatus } from "../../store/PageStatusProvder";
 import Modal from "../UI/Modal";
 import ProfileEditForm from "./ProfileEditForm";
-
-const dummyData = {};
+import { ProfileContext } from "../../store/ProfileProvider";
 
 const ProfileEdit = () => {
-  const [image, setImage] = useState({
-    url: "",
-    file: [],
-  });
-  const [bio, setBio] = useState("");
-  const [name, setName] = useState("");
-
   const pageStatusCtx = useContext(PageStatus);
   const open = pageStatusCtx.path === "/profile/edit";
 
+  const profileCtx = useContext(ProfileContext);
+  const profileData = profileCtx.profile.userDetails;
+
+  const [image, setImage] = useState({
+    url: "",
+  });
+  const [bio, setBio] = useState("");
+  const [name, setName] = useState("");
+  const [isEditing, setIsEditing] = useState("");
+
   const handleImageChange = (event) => {
-    console.log("click");
-    setImage((prevState) => {
+    setImage(() => {
       return {
-        ...prevState,
         url: URL.createObjectURL(event.target.files[0]),
-        file: [...prevState.file, event.target.files[0]],
+        file: event.target.files[0],
       };
     });
+    setIsEditing(true);
   };
 
   const handleBioChange = (event) => {
@@ -40,9 +41,14 @@ const ProfileEdit = () => {
     <>
       {open && (
         <Modal
-          method={"POST"}
+          method={"PUT"}
           path={"/profile/edit"}
-          data={{ image: image.file, name, bio }}
+          data={{
+            image: image.file,
+            name,
+            bio,
+            username: profileData.username,
+          }}
           buttonCaption={"Save"}
         >
           <ProfileEditForm
@@ -50,7 +56,9 @@ const ProfileEdit = () => {
             onImageChange={handleImageChange}
             onNameChange={handleNameChange}
             onBioChange={handleBioChange}
-            profileData={dummyData}
+            data={{ image, name, bio }}
+            isEditing={isEditing}
+            profileData={profileData}
           />
         </Modal>
       )}

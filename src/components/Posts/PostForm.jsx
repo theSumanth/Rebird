@@ -55,9 +55,12 @@ const PostForm = ({ onImageChange, isEditing, image, onTextChange }) => {
 export default PostForm;
 
 export async function action({ request }) {
+  console.log("in add post");
   const formData = await request.formData();
 
   const postData = Object.fromEntries(formData.entries());
+
+  console.log(postData);
 
   if (Object.keys(postData).length === 0) {
     console.log("closed create post");
@@ -69,7 +72,7 @@ export async function action({ request }) {
     headers: {
       Authorization: "Bearer " + getAuthToken(),
     },
-    body: JSON.stringify(postData),
+    body: formData,
   });
 
   if (!response.ok) {
